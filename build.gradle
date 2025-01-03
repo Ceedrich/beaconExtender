@@ -11,7 +11,7 @@ modrinth {
   token = System.getenv("MODRINTH_TOKEN")
   projectId = "KAU7oAfO"
   versionType = "beta"
-  uploadeFile = remapJar
+  uploadFile = remapJar
   gameVersions = ["1.21.4"]
   loaders = ["fabric"]
   dependencies {
