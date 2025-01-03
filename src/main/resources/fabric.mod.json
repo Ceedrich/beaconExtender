@@ -1,0 +1,31 @@
+{
+	"schemaVersion": 1,
+	"id": "beaconextender",
+	"version": "${version}",
+	"name": "beaconExtender",
+	"description": "This mod lets you configure the range and number of layers beacons have",
+	"authors": [
+		"Ceedrich"
+	],
+	"contact": {
+		"homepage": "https://github.com/Ceedrich/beaconExtender",
+		"sources": "https://github.com/Ceedrich/beaconExtender"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/beaconextender/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"beaconextender.BeaconExtender"
+		]
+	},
+	"mixins": [
+		"beaconextender.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.9",
+		"minecraft": "~1.21.4",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
