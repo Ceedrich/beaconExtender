@@ -1,0 +1,13 @@
+{
+  "text.autoconfig.beaconextender.title": "Beacon Extender Configuration",
+  "text.autoconfig.beaconextender.option.effectDuration": "Beacon effect duration",
+  "text.autoconfig.beaconextender.option.effectDuration.param1": "Parameter 1",
+  "text.autoconfig.beaconextender.option.effectDuration.param2": "Parameter 2",
+  "text.autoconfig.beaconextender.option.effectDuration.type": "Effect duration function type",
+  "text.autoconfig.beaconextender.option.maxLayers": "Max beacon layers",
+  "text.autoconfig.beaconextender.option.range": "Beacon effect range",
+  "text.autoconfig.beaconextender.option.range.@PrefixText": "§eWarning: §rDo not modifiy the following lines unless you know what you're doing!",
+  "text.autoconfig.beaconextender.option.range.param1": "Parameter 1",
+  "text.autoconfig.beaconextender.option.range.param2": "Parameter 2",
+  "text.autoconfig.beaconextender.option.range.type": "Range function type"
+}
