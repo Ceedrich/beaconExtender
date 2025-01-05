@@ -29,6 +29,7 @@ jobs:
 
       - name: Fail if the tag already exists
         run: |
+          git fetch --tags
           mod_version=$(./gradlew properties | grep mod_version | awk '{print $2}')
           latest_tag=$(git describe --tags "$(git rev-list --tags --max-count=1)")
           [[ "$mod_version" != "$latest_tag" ]]
