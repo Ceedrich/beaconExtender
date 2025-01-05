@@ -27,22 +27,23 @@ jobs:
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
 
-      - name: Fail if the tag already exists
-        run: |
-          git fetch --tags
-          mod_version=$(./gradlew properties | grep mod_version | awk '{print $2}')
-          latest_tag=$(git describe --tags "$(git rev-list --tags --max-count=1)")
-          [[ "$mod_version" != "$latest_tag" ]]
+#   It should fail, if the given modrinth version is already on modrinth.
+#      - name: Fail if the tag already exists
+#        run: |
+#          git fetch --tags
+#          mod_version=$(./gradlew properties | grep mod_version | awk '{print $2}')
+#          latest_tag=$(git describe --tags "$(git rev-list --tags --max-count=1)")
+#          [[ "$mod_version" != "$latest_tag" ]]
 
       - name: Build
         run: ./gradlew clean build
 
-      - name: Publish
+      - name: Publish to Modrinth
+        run: ./gradlew modrinth
+
+      - name: Publish to Github
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
-          modrinth-id: ${{ env.MODRINTH_ID }}
-          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
           files: build/libs/!(*-@(dev|sources|javadoc)).jar
