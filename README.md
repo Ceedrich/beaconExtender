@@ -19,38 +19,39 @@ beacon to be configured.
 You will find a configuration file `beaconextender.toml` in your usual
 `.minecraft/config` folder.
 
-```toml
-# Defines the maximum number of layers a beacon can have.
-# Any more layers will not have any effect on the beacon
-# Default: 6
-maxLayers = 6
-
-[range]
-# Defines the method of calculating the beacon range
-# The type can be either "exponential" or "linear" (default "linear")
-# This requires [range.exponential] or [range.linear] to be set respectivley.
-# Default: exponential
-type = "exponential"
-
-# Determines the parameters of the exponential method given by the function
-#    range(n) = initialValue * base^n
-# where n is the number of layers of the beacon
-# Default:
-# [range.exponential]
-# initialValue = 12.0
-# base = 1.5
-[range.exponential]
-initialValue = 12.0
-base = 1.5
-
-# Determines the parameters of the linear method given by the function
-#     range(n) = (slope * n) + offset
-# where n is the number of layers of the beacon
-# Default:
-# [range.linear]
-# slope = 10.0
-# offset = 10.0
-[range.linear]
-slope = 10.0
-offset = 10.0
+```json5
+{
+  // Defines the maximum number of beacon layers that will change the effect
+  maxLayers: 6,
+  // Defines the method of calculating the beacon range
+  range: {
+    /* Defines the type of the function.
+		   Can be either "EXPONENTIAL" or "LINEAR".
+		   The exponential function gets evaluated like
+		       f(layers) = param1 * param2 ^ layers
+		   The linear function gets evaluated like
+		       f(layers) = param1 * layers + param2
+		*/
+    type: "LINEAR",
+    // The first parameter of the function.
+    param1: 10.0,
+    // The second parameter of the function.
+    param2: 10.0,
+  },
+  // Defines the method of calculating the effect duration in seconds
+  effectDuration: {
+    /* Defines the type of the function.
+		   Can be either "EXPONENTIAL" or "LINEAR".
+		   The exponential function gets evaluated like
+		       f(layers) = param1 * param2 ^ layers
+		   The linear function gets evaluated like
+		       f(layers) = param1 * layers + param2
+		*/
+    type: "LINEAR",
+    // The first parameter of the function.
+    param1: 2.0,
+    // The second parameter of the function.
+    param2: 9.0,
+  },
+}
 ```
