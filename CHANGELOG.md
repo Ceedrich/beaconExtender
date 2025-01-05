@@ -1,1 +1,1 @@
-fix critical bug that stops the mod from launching
+updated configuration format to json5 and added modmenu support

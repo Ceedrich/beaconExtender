@@ -1,106 +1,79 @@
 package beaconextender;
 
-import com.moandjiezana.toml.Toml;
-import com.moandjiezana.toml.TomlWriter;
-import net.fabricmc.loader.api.FabricLoader;
-import org.slf4j.Logger;
+import me.shedaniel.autoconfig.ConfigData;
+import me.shedaniel.autoconfig.annotation.Config;
+import me.shedaniel.autoconfig.annotation.ConfigEntry;
+import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
 
-import java.io.*;
-import java.nio.file.Path;
-
-public class BeaconExtenderConfig {
-    public static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve(BeaconExtender.MOD_ID + ".toml");
-    public static final Logger LOGGER = BeaconExtender.LOGGER;
-
-    private int maxLayers;
-    private Function range;
-
-    @SuppressWarnings({"CanBeFinal", "CanBeStatic"})
-    private class Function {
-        private String type = "linear";
-        private Exponential exponential = new Exponential();
-        private Linear linear = new Linear();
-
-        private class Exponential {
-            private double initialValue = 12.0;
-            private double base = 1.5;
-        }
-
-        private class Linear {
-            private double slope = 10.0;
-            private double offset = 10.0;
-        }
-    }
-
-    private static BeaconExtenderConfig loadDefault() {
-        InputStream defaultConfigStream = BeaconExtenderConfig.class.getResourceAsStream("/assets/beaconextender/defaultConfig.toml");
-        if (defaultConfigStream == null) {
-            throw new IllegalStateException("Default config could not be loaded");
-        }
-        try {
-            BeaconExtenderConfig config = new Toml().read(defaultConfigStream).to(BeaconExtenderConfig.class);
-            assert (config.range.type.equals("exponential") || config.range.type.equals("linear"));
-            return config;
-        } catch (Exception e) {
-            throw new IllegalStateException("Default config could not be loaded", e);
-        }
-    }
-
-    private static void writeDefaultConfig(File file) throws IOException {
-        File dir = file.getParentFile();
-        if (!dir.exists()) {
-            if (!dir.mkdirs()) {
-                throw new IOException("Could not create parent directories");
-            }
-        } else if (!dir.isDirectory()) {
-            throw new IOException("Parent file is not a directory");
-        }
-
-        try (Writer writer = new FileWriter(file)) {
-            BeaconExtenderConfig config = BeaconExtenderConfig.loadDefault();
-            new TomlWriter().write(config, writer);
-        }
-    }
-
-    public static synchronized BeaconExtenderConfig load() {
-        File file = CONFIG_PATH.toFile();
-        if (file.exists()) {
-            try {
-                return new Toml().read(file).to(BeaconExtenderConfig.class);
-            } catch (Exception e) {
-                LOGGER.error("Could not load configuration file, using the default configuration", e);
-            }
-        } else {
-            try {
-                writeDefaultConfig(file);
-            } catch (IOException e) {
-                LOGGER.warn("Could not write default configuration file", e);
-            }
-        }
-        return BeaconExtenderConfig.loadDefault();
-    }
+@Config(name = BeaconExtender.MOD_ID)
+public class BeaconExtenderConfig implements ConfigData {
+    @Comment("Defines the maximum number of beacon layers that will change the effect")
+    @ConfigEntry.BoundedDiscrete(min = 4, max = 12)
+    int maxLayers = 6;
+    @ConfigEntry.Gui.PrefixText
+    @Comment("Defines the method of calculating the beacon range")
+    @ConfigEntry.Gui.CollapsibleObject
+    Function range = Function.linear(10.0, 10.0);
+    @Comment("Defines the method of calculating the effect duration in seconds")
+    @ConfigEntry.Gui.CollapsibleObject
+    Function effectDuration = Function.linear(2.0, 9.0);
 
     public int getMaxLayers() {
         return maxLayers;
     }
 
-    public double getDistance(int beaconLevel) {
-        return getFunctionValue(beaconLevel, range);
+    public double getRange(int beaconLevel) {
+        return range.evaluate(beaconLevel);
+    }
+    public double getEffectDuration(int beaconLevel) {
+        return effectDuration.evaluate(beaconLevel);
     }
 
-    private double getFunctionValue(int beaconLevel, Function f) {
-        if (f.type.equals("exponential")) {
-            double initialValue = f.exponential.initialValue;
-            double base = f.exponential.base;
+    static class Function {
+        static Function exponential(double initialValue, double base) {
+            return new Function(Type.EXPONENTIAL, initialValue, base);
+        }
+        static Function linear(double slope, double offset) {
+            return new Function(Type.LINEAR, slope, offset);
+        }
+        Function(Type type, double param1, double param2) {
+            this.type = type;
+            this.param1 = param1;
+            this.param2 = param2;
+        }
 
-            return (initialValue * Math.pow(base, beaconLevel));
-        } else if (f.type.equals("linear")) {
-            double slope = f.linear.slope;
-            double offset = f.linear.offset;
+        @Comment("""
+                Defines the type of the function.
+                Can be either "EXPONENTIAL" or "LINEAR".
+                The exponential function gets evaluated like
+                    f(layers) = param1 * param2 ^ layers
+                The linear function gets evaluated like
+                    f(layers) = param1 * layers + param2
+                """)
+        @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
+        Type type;
+        @Comment("The first parameter of the function.")
+        double param1;
+        @Comment("The second parameter of the function.")
+        double param2;
 
-            return slope * (double)beaconLevel + offset;
-        } else {
-            throw new IllegalStateException("type must be either exponential or linear");
+        enum Type {
+            EXPONENTIAL,
+            LINEAR
+        }
+
+        public double evaluate(int beaconLevel) {
+            switch (type) {
+                case EXPONENTIAL -> {
+                    return param1 * Math.pow(param2, beaconLevel);
+                }
+                case LINEAR -> {
+                    return param1 * beaconLevel + param2;
+                }
+                default -> {
+                    throw new IllegalStateException("Type must be either EXPONENTIAL or LINEAR");
+                }
+            }
         }
     }
 }

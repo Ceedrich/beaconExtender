@@ -29,14 +29,14 @@ public class BeaconExtenderMixin {
 		// Cancel default action
 		ci.cancel();
 		if (!level.isClientSide && primaryEffect != null) {
-			double distance = BeaconExtender.CONFIG.getDistance(beaconLevel);
+			double distance = BeaconExtender.CONFIG.getRange(beaconLevel);
 
 			int effectAmplifier = 0;
 			if (beaconLevel >= 4 && Objects.equals(primaryEffect, secondaryEffect)) {
 				effectAmplifier = 1;
 			}
 
-			int effectDuration = (9 + beaconLevel * 2) * 20;
+			int effectDuration = (int)(BeaconExtender.CONFIG.getEffectDuration(beaconLevel) * 20);
 			AABB aABB = (new AABB(blockPos)).inflate(distance).expandTowards((double) 0.0F, (double) level.getHeight(), (double) 0.0F);
 			List<Player> list = level.getEntitiesOfClass(Player.class, aABB);
 
