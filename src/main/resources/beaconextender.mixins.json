@@ -5,6 +5,9 @@
 	"mixins": [
 		"BeaconExtenderMixin"
 	],
+	"client": [
+		"BeaconScreenMixin"
+	],
 	"injectors": {
 		"defaultRequire": 1
 	}

@@ -28,5 +28,6 @@
   "text.autoconfig.beaconextender.option.range.@PrefixText": "§eWarning: §rDo not modifiy the following lines unless you know what you're doing!",
   "text.autoconfig.beaconextender.option.range.param1": "Parameter 1",
   "text.autoconfig.beaconextender.option.range.param2": "Parameter 2",
-  "text.autoconfig.beaconextender.option.range.type": "Range function type"
+  "text.autoconfig.beaconextender.option.range.type": "Range function type",
+  "block.minecraft.beacon.bannerextender.layers": "Active Layers: §a"
 }
