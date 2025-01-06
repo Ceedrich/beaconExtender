@@ -12,6 +12,7 @@ modrinth {
   projectId = "KAU7oAfO"
   versionType = "beta"
   uploadFile = remapJar
+  changelog = "CHANGELOG.md"
   gameVersions = ["1.21.4"]
   loaders = ["fabric"]
   dependencies {
