@@ -8,28 +8,46 @@ import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
 @Config(name = BeaconExtender.MOD_ID)
 public class BeaconExtenderConfig implements ConfigData {
     @Comment("Defines the maximum number of beacon layers that will change the effect")
+    @ConfigEntry.Gui.Tooltip
     @ConfigEntry.BoundedDiscrete(min = 4, max = 12)
     int maxLayers = 6;
+
+    @Comment("Defines the method of calculating the effect range")
     @ConfigEntry.Gui.PrefixText
-    @Comment("Defines the method of calculating the beacon range")
+    @ConfigEntry.Gui.Tooltip
     @ConfigEntry.Gui.CollapsibleObject
     Function range = Function.linear(10.0, 10.0);
+
     @Comment("Defines the method of calculating the effect duration in seconds")
     @ConfigEntry.Gui.CollapsibleObject
+    @ConfigEntry.Gui.Tooltip
     Function effectDuration = Function.linear(2.0, 9.0);
 
-    public int getMaxLayers() {
-        return maxLayers;
-    }
-
-    public double getRange(int beaconLevel) {
-        return range.evaluate(beaconLevel);
-    }
-    public double getEffectDuration(int beaconLevel) {
-        return effectDuration.evaluate(beaconLevel);
-    }
-
     static class Function {
+        @Comment("""
+                Defines the type of the function.
+                Can be either "EXPONENTIAL" or "LINEAR".
+                The exponential function gets evaluated like
+                    f(layers) = param1 * param2 ^ layers
+                The linear function gets evaluated like
+                    f(layers) = param1 * layers + param2
+                """)
+        @ConfigEntry.Gui.Tooltip(count = 6)
+        @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
+        Type type;
+
+        @Comment("The first parameter of the function.")
+        @ConfigEntry.Gui.Tooltip
+        double param1;
+
+        @Comment("The second parameter of the function.")
+        @ConfigEntry.Gui.Tooltip
+        double param2;
+
+        enum Type {
+            EXPONENTIAL,
+            LINEAR
+        }
         static Function exponential(double initialValue, double base) {
             return new Function(Type.EXPONENTIAL, initialValue, base);
         }
@@ -40,26 +58,6 @@ public class BeaconExtenderConfig implements ConfigData {
             this.type = type;
             this.param1 = param1;
             this.param2 = param2;
-        }
-
-        @Comment("""
-                Defines the type of the function.
-                Can be either "EXPONENTIAL" or "LINEAR".
-                The exponential function gets evaluated like
-                    f(layers) = param1 * param2 ^ layers
-                The linear function gets evaluated like
-                    f(layers) = param1 * layers + param2
-                """)
-        @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
-        Type type;
-        @Comment("The first parameter of the function.")
-        double param1;
-        @Comment("The second parameter of the function.")
-        double param2;
-
-        enum Type {
-            EXPONENTIAL,
-            LINEAR
         }
 
         public double evaluate(int beaconLevel) {
@@ -75,5 +73,17 @@ public class BeaconExtenderConfig implements ConfigData {
                 }
             }
         }
+    }
+
+    public int getMaxLayers() {
+        return maxLayers;
+    }
+
+    public double getRange(int beaconLevel) {
+        return range.evaluate(beaconLevel);
+    }
+
+    public double getEffectDuration(int beaconLevel) {
+        return effectDuration.evaluate(beaconLevel);
     }
 }
