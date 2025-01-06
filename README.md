@@ -23,15 +23,15 @@ You will find a configuration file `beaconextender.toml` in your usual
 {
   // Defines the maximum number of beacon layers that will change the effect
   maxLayers: 6,
-  // Defines the method of calculating the beacon range
+  // Defines the method of calculating the effect range
   range: {
     /* Defines the type of the function.
-		   Can be either "EXPONENTIAL" or "LINEAR".
-		   The exponential function gets evaluated like
-		       f(layers) = param1 * param2 ^ layers
-		   The linear function gets evaluated like
-		       f(layers) = param1 * layers + param2
-		*/
+       Can be either "EXPONENTIAL" or "LINEAR".
+       The exponential function gets evaluated like
+           f(layers) = param1 * param2 ^ layers
+       The linear function gets evaluated like
+           f(layers) = param1 * layers + param2
+	*/
     type: "LINEAR",
     // The first parameter of the function.
     param1: 10.0,
