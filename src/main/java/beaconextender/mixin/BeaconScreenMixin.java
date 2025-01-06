@@ -25,12 +25,14 @@ public class BeaconScreenMixin {
 
     @Inject(at = @At("HEAD"), method = "renderLabels")
     private void renderLabels(GuiGraphics guiGraphics, int i, int j, CallbackInfo ci) {
-        BeaconScreen instance = (BeaconScreen) (Object) this;
-        Font font = instance.getFont();
+        if (BeaconExtender.CONFIG.showBeaconLayers()) {
+            BeaconScreen instance = (BeaconScreen) (Object) this;
+            Font font = instance.getFont();
 
-        BeaconMenu menu = instance.getMenu();
+            BeaconMenu menu = instance.getMenu();
+            int layers = menu.getLevels();
 
-        int layers = menu.getLevels();
-        guiGraphics.drawCenteredString(font, LAYERS_LABEL.getString() + layers, 169, 80, 14737632);
+            guiGraphics.drawCenteredString(font, LAYERS_LABEL.getString() + layers, 169, 80, 14737632);
+        }
     }
 }

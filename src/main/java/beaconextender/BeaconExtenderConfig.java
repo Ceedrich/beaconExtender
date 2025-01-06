@@ -7,18 +7,26 @@ import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
 
 @Config(name = BeaconExtender.MOD_ID)
 public class BeaconExtenderConfig implements ConfigData {
+    @Comment("Show the number of active layers in the beacon ui")
+    @ConfigEntry.Category("Client")
+    @ConfigEntry.Gui.Tooltip
+    boolean showBeaconLayers = true;
+
     @Comment("Defines the maximum number of beacon layers that will change the effect")
+    @ConfigEntry.Category("Server")
     @ConfigEntry.Gui.Tooltip
     @ConfigEntry.BoundedDiscrete(min = 4, max = 12)
     int maxLayers = 6;
 
     @Comment("Defines the method of calculating the effect range")
+    @ConfigEntry.Category("Server")
     @ConfigEntry.Gui.PrefixText
     @ConfigEntry.Gui.Tooltip
     @ConfigEntry.Gui.CollapsibleObject
     Function range = Function.linear(10.0, 10.0);
 
     @Comment("Defines the method of calculating the effect duration in seconds")
+    @ConfigEntry.Category("Server")
     @ConfigEntry.Gui.CollapsibleObject
     @ConfigEntry.Gui.Tooltip
     Function effectDuration = Function.linear(2.0, 9.0);
@@ -85,5 +93,9 @@ public class BeaconExtenderConfig implements ConfigData {
 
     public double getEffectDuration(int beaconLevel) {
         return effectDuration.evaluate(beaconLevel);
+    }
+
+    public boolean showBeaconLayers() {
+        return showBeaconLayers;
     }
 }
