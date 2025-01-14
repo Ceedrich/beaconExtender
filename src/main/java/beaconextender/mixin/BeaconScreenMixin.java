@@ -15,10 +15,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(BeaconScreen.class)
 public class BeaconScreenMixin {
     @Unique
-    private static final Component ACTIVE_LAYERS_LABEL = Component.translatable("block.minecraft.beacon.beaconextender.active_layers");
+    private static final String ACTIVE_LAYERS_LABEL = "block.minecraft.beacon.beaconextender.active_layers";
 
     @Unique
-    private static final Component INACTIVE_LABEL = Component.translatable("block.minecraft.beacon.beaconextender.inactive");
+    private static final String INACTIVE_LABEL = "block.minecraft.beacon.beaconextender.inactive";
 
     @Inject(at = @At("HEAD"), method = "renderLabels")
     private void renderLabels(GuiGraphics guiGraphics, int i, int j, CallbackInfo ci) {
@@ -30,9 +30,9 @@ public class BeaconScreenMixin {
             int layers = menu.getLevels();
 
             if (layers == 0) {
-                guiGraphics.drawCenteredString(font, INACTIVE_LABEL.getString(), 169, 80, 14737632);
+                guiGraphics.drawCenteredString(font, Component.translatable(INACTIVE_LABEL), 169, 80, 14737632);
             } else {
-                guiGraphics.drawCenteredString(font, ACTIVE_LAYERS_LABEL.getString() + layers, 169, 80, 14737632);
+                guiGraphics.drawCenteredString(font, Component.translatable(ACTIVE_LAYERS_LABEL, layers), 169, 80, 14737632);
             }
         }
     }

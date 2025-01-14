@@ -1,5 +1,5 @@
 {
-  "block.minecraft.beacon.beaconextender.active_layers": "Active Layers: §a",
+  "block.minecraft.beacon.beaconextender.active_layers": "Active Layers: §a%s",
   "block.minecraft.beacon.beaconextender.inactive": "Beacon $cinactive",
   "text.autoconfig.beaconextender.category.Client": "Client",
   "text.autoconfig.beaconextender.category.Server": "Server",

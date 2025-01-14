@@ -1,4 +1,4 @@
 {
-  "block.minecraft.beacon.beaconextender.active_layers": "Niveaux actifs : §a",
+  "block.minecraft.beacon.beaconextender.active_layers": "Niveau(x) actif(s) : §a%s",
   "block.minecraft.beacon.beaconextender.inactive": "$cInactif"
 }
