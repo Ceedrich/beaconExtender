@@ -35,6 +35,10 @@ public class BeaconExtender implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 		AutoConfig.register(BeaconExtenderConfig.class, JanksonConfigSerializer::new);
+		loadConfiguration();
+
+		assert BeaconExtender.CONFIG != null;
+
 		registerReloadListener();
 	}
 
