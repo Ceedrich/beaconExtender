@@ -1,4 +1,4 @@
 {
-  "block.minecraft.beacon.beaconextender.active_layers": "Aktivi Schichte: §a%s",
+  "block.minecraft.beacon.beaconextender.active_layers": "§aAktivi§r Schichte: %s",
   "block.minecraft.beacon.beaconextender.inactive": "§cDeaktiviert"
 }
