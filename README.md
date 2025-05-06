@@ -21,38 +21,30 @@ You will find a configuration file `beaconextender.json5` in your usual
 ```json5
 {
   // Show the number of active layers in the beacon ui
-  showBeaconLayers: true,
+  showBeaconLayers: false,
   // Defines the maximum number of beacon layers that will change the effect
   maxLayers: 6,
-  // Defines the method of calculating the effect range
-  range: {
-    /* Defines the type of the function.
-       Can be either "EXPONENTIAL" or "LINEAR".
-       The exponential function gets evaluated like
-           f(layers) = param1 * param2 ^ layers
-       The linear function gets evaluated like
-           f(layers) = param1 * layers + param2
-    */
-    type: "LINEAR",
-    // The first parameter of the function.
-    param1: 10.0,
-    // The second parameter of the function.
-    param2: 10.0,
-  },
-  // Defines the method of calculating the effect duration in seconds
-  effectDuration: {
-    /* Defines the type of the function.
-       Can be either "EXPONENTIAL" or "LINEAR".
-       The exponential function gets evaluated like
-           f(layers) = param1 * param2 ^ layers
-       The linear function gets evaluated like
-           f(layers) = param1 * layers + param2
-    */
-    type: "LINEAR",
-    // The first parameter of the function.
-    param1: 2.0,
-    // The second parameter of the function.
-    param2: 9.0,
-  },
+  // Defines the type of the range function.
+  // Can be either "EXPONENTIAL" or "LINEAR".
+  // The exponential function gets evaluated like
+  //     f(layers) = param1 * param2 ^ layers
+  // The linear function gets evaluated like
+  //     f(layers) = param1 * layers + param2
+  rangeFunctionType: "LINEAR",
+  // The first parameter of the range function.
+  rangeFunctionParam1: 10.0,
+  // The second parameter of the range function.
+  rangeFunctionParam2: 10.0,
+  // Defines the type of the effect duration function.
+  // Can be either "EXPONENTIAL" or "LINEAR".
+  // The exponential function gets evaluated like
+  //     f(layers) = param1 * param2 ^ layers
+  // The linear function gets evaluated like
+  //     f(layers) = param1 * layers + param2
+  effectDurationFunctionType: "LINEAR",
+  // The first parameter of the effect duration function.
+  effectDurationFunctionParam1: 10.0,
+  // The second parameter of the effect duration function.
+  effectDurationFunctionParam2: 10.0
 }
 ```
