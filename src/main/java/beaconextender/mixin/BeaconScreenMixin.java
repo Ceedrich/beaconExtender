@@ -1,6 +1,7 @@
 package beaconextender.mixin;
 
 import beaconextender.BeaconExtender;
+import beaconextender.BeaconExtenderConfig;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.BeaconScreen;
@@ -22,7 +23,7 @@ public class BeaconScreenMixin {
 
     @Inject(at = @At("HEAD"), method = "renderLabels")
     private void renderLabels(GuiGraphics guiGraphics, int i, int j, CallbackInfo ci) {
-        if (BeaconExtender.CONFIG.showBeaconLayers()) {
+        if (BeaconExtenderConfig.HANDLER.instance().showBeaconLayers()) {
             BeaconScreen instance = (BeaconScreen) (Object) this;
             Font font = instance.getFont();
 

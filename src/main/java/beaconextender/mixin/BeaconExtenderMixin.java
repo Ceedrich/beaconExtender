@@ -4,7 +4,6 @@ import beaconextender.BeaconExtender;
 import beaconextender.BeaconExtenderConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -29,14 +28,14 @@ public class BeaconExtenderMixin {
 		// Cancel default action
 		ci.cancel();
 		if (!level.isClientSide && primaryEffect != null) {
-			double distance = BeaconExtender.CONFIG.getRange(beaconLevel);
+			double distance = BeaconExtenderConfig.HANDLER.instance().getRange(beaconLevel);
 
 			int effectAmplifier = 0;
 			if (beaconLevel >= 4 && Objects.equals(primaryEffect, secondaryEffect)) {
 				effectAmplifier = 1;
 			}
 
-			int effectDuration = (int)(BeaconExtender.CONFIG.getEffectDuration(beaconLevel) * 20);
+			int effectDuration = (int)(BeaconExtenderConfig.HANDLER.instance().getEffectDuration(beaconLevel) * 20);
 			AABB aABB = (new AABB(blockPos)).inflate(distance).expandTowards((double) 0.0F, (double) level.getHeight(), (double) 0.0F);
 			List<Player> list = level.getEntitiesOfClass(Player.class, aABB);
 
@@ -54,7 +53,7 @@ public class BeaconExtenderMixin {
 
 	@Inject(at = @At("HEAD"), method = "updateBase", cancellable = true)
 	private static void updateBase(Level world, int baseX, int baseY, int baseZ, CallbackInfoReturnable<Integer> ci) {
-		int MAX_LAYERS = BeaconExtender.CONFIG.getMaxLayers();
+		int MAX_LAYERS = BeaconExtenderConfig.HANDLER.instance().getMaxLayers();
 
 		int validLayers = 0;
 
