@@ -1,16 +1,11 @@
 package beaconextender;
 
-import com.sun.jna.platform.win32.Winnetwk;
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
-import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ModInitializer;
+
 
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.fabricmc.fabric.api.resource.SimpleResourceReloadListener;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import org.jetbrains.annotations.NotNull;
@@ -27,24 +22,16 @@ public class BeaconExtender implements ModInitializer {
 	// It is considered best practice to use your mod id as the logger's name.
 	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-	public static BeaconExtenderConfig CONFIG;
 
 	@Override
 	public void onInitialize() {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
-		AutoConfig.register(BeaconExtenderConfig.class, JanksonConfigSerializer::new);
-		loadConfiguration();
-
-		assert BeaconExtender.CONFIG != null;
+		BeaconExtenderConfig.HANDLER.load();
+		BeaconExtenderConfig.HANDLER.save();
 
 		registerReloadListener();
-	}
-
-	private void loadConfiguration() {
-		LOGGER.info("Loading configuration...");
-        CONFIG = AutoConfig.getConfigHolder(BeaconExtenderConfig.class).getConfig();
 	}
 
 	private void registerReloadListener() {
@@ -52,7 +39,7 @@ public class BeaconExtender implements ModInitializer {
 			@Override
 			public @NotNull CompletableFuture<Void> reload(PreparationBarrier preparationBarrier, ResourceManager resourceManager, Executor executor, Executor executor2) {
 				CompletableFuture<Void> future =  CompletableFuture.runAsync(() -> {
-					loadConfiguration();
+					BeaconExtenderConfig.HANDLER.load();
 				}, executor2);
 
 				return preparationBarrier.wait(future).thenCompose(f -> f);
