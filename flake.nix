@@ -1,13 +1,16 @@
 {
   description = "Development Shell";
   inputs = {
-    nigpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+    nix-minecraft.url = "github:Infinidoge/nix-minecraft";
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:vic/import-tree";
   };
 
-  outputs = { nixpkgs, flake-utils, ... }:
-    flake-utils.lib.eachDefaultSystem (system:
-      let pkgs = nixpkgs.legacyPackages.${system}; in
-      { devShells.default = import ./shell.nix { inherit pkgs; }; }
-    );
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake {inherit inputs;} (toplevel: {
+      imports = [(inputs.import-tree ./nix)];
+      systems = ["x86_64-linux"];
+    });
 }
