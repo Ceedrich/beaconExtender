@@ -11,6 +11,10 @@ beacon to be configured.
 - Flexible configuration and in-game reloading
 - Displays the amount of active layers in the beacon ui
 
+> [!WARNING]
+> Be careful when using the **exponential** function(s). They can get large very quickly.
+> For security reasons, the values of the _beacon range_ and _effect duration_ are both clamped at 10'000.0 blocks/seconds respectively.
+
 ## TODOS
 
 ## Configuration
@@ -45,6 +49,6 @@ You will find a configuration file `beaconextender.json5` in your usual
   // The first parameter of the effect duration function.
   effectDurationFunctionParam1: 10.0,
   // The second parameter of the effect duration function.
-  effectDurationFunctionParam2: 10.0
+  effectDurationFunctionParam2: 10.0,
 }
 ```

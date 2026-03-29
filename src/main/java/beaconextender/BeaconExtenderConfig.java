@@ -26,6 +26,7 @@ public class BeaconExtenderConfig {
             )
             .build();
 
+    private static final double MAX_FUNCTION_VALUE = 10_000.0;
     private static final String CLIENT_CATEGORY = "client";
     private static final String SERVER_CATEGORY = "server";
     private static final String RANGE_GROUP = "range";
@@ -125,11 +126,13 @@ public class BeaconExtenderConfig {
     }
 
     public double getRange(int beaconLevel) {
-        return evaluate(rangeFunctionType, rangeFunctionParam1, rangeFunctionParam2, beaconLevel);
+        double value = evaluate(rangeFunctionType, rangeFunctionParam1, rangeFunctionParam2, beaconLevel);
+        return Math.clamp(value, 0.0, MAX_FUNCTION_VALUE);
     }
 
     public double getEffectDuration(int beaconLevel) {
-        return evaluate(effectDurationFunctionType, effectDurationFunctionParam1, effectDurationFunctionParam2, beaconLevel);
+        double value = evaluate(effectDurationFunctionType, effectDurationFunctionParam1, effectDurationFunctionParam2, beaconLevel);
+        return Math.clamp(value, 0.0, MAX_FUNCTION_VALUE);
     }
 
     public boolean showBeaconLayers() {

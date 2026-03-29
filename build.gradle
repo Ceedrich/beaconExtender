@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.9-SNAPSHOT'
+	id 'fabric-loom' version '1.15-SNAPSHOT'
 	id 'maven-publish'
   id "com.modrinth.minotaur" version "2.+"
 }
@@ -13,7 +13,7 @@ modrinth {
   versionType = "beta"
   uploadFile = remapJar
   changelog = "CHANGELOG.md"
-  gameVersions = ["1.21.4", "1.21.5"]
+  gameVersions = ["1.21.8"]
   loaders = ["fabric"]
   dependencies {
     required.project "fabric-api"
@@ -53,7 +53,7 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 	modImplementation "dev.isxander:yet-another-config-lib:${project.yacl_version}"
 
 	modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")

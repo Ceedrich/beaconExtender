@@ -36,7 +36,7 @@ public class BeaconExtenderMixin {
 			}
 
 			int effectDuration = (int)(BeaconExtenderConfig.HANDLER.instance().getEffectDuration(beaconLevel) * 20);
-			AABB aABB = (new AABB(blockPos)).inflate(distance).expandTowards((double) 0.0F, (double) level.getHeight(), (double) 0.0F);
+			AABB aABB = (new AABB(blockPos)).inflate(distance).expandTowards((double)0.0F, (double)level.getHeight(), (double)0.0F);
 			List<Player> list = level.getEntitiesOfClass(Player.class, aABB);
 
 			for (Player player : list) {
