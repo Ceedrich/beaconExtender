@@ -14,7 +14,7 @@ modrinth {
   versionNumber = "${project.mod_version}+${project.minecraft_version}"
   uploadFile = remapJar
   changelog = "CHANGELOG.md"
-  gameVersions = ["1.21.8"]
+  gameVersions = ["${project.minecraft_version}"]
   loaders = ["fabric"]
   dependencies {
     required.project "fabric-api"
@@ -66,6 +66,9 @@ processResources {
 
 	filesMatching("fabric.mod.json") {
 		expand "version": project.version
+		expand "loader_version": project.loader_version
+    expand "minecraft_version": project.minecraft_version
+    expand "yacl_version": project.yacl_version
 	}
 }
 
