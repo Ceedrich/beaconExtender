@@ -8,17 +8,14 @@ import dev.isxander.yacl3.config.v2.api.autogen.Boolean;
 import dev.isxander.yacl3.config.v2.api.autogen.Label;
 import dev.isxander.yacl3.config.v2.api.serializer.GsonConfigSerializerBuilder;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.network.chat.Component;
 
-import java.awt.*;
-
-import static beaconextender.BeaconExtenderConfig.FunctionType.EXPONENTIAL;
 import static beaconextender.BeaconExtenderConfig.FunctionType.LINEAR;
 
 public class BeaconExtenderConfig {
     public static ConfigClassHandler<BeaconExtenderConfig> HANDLER = ConfigClassHandler.createBuilder(BeaconExtenderConfig.class)
-            .id(ResourceLocation.fromNamespaceAndPath(BeaconExtender.MOD_ID, "config"))
+            .id(Identifier.fromNamespaceAndPath(BeaconExtender.MOD_ID, "config"))
             .serializer(config -> GsonConfigSerializerBuilder.create(config)
                     .setPath(FabricLoader.getInstance().getConfigDir().resolve("beaconextender.json5"))
                     .setJson5(true)
@@ -32,7 +29,7 @@ public class BeaconExtenderConfig {
     private static final String RANGE_GROUP = "range";
     private static final String EFFECT_DURATION_GROUP = "effectDuration";
 
-    static final String RANGE_FUNCITON_DESCRIPTION = """
+    static final String RANGE_FUNCTION_DESCRIPTION = """
                 Defines the type of the range function.
                 Can be either "EXPONENTIAL" or "LINEAR".
                 The exponential function gets evaluated like
@@ -67,8 +64,8 @@ public class BeaconExtenderConfig {
 
     @AutoGen(category = SERVER_CATEGORY, group = RANGE_GROUP)
     @EnumCycler
-    @CustomDescription(RANGE_FUNCITON_DESCRIPTION)
-    @SerialEntry(comment = RANGE_FUNCITON_DESCRIPTION)
+    @CustomDescription(RANGE_FUNCTION_DESCRIPTION)
+    @SerialEntry(comment = RANGE_FUNCTION_DESCRIPTION)
     FunctionType rangeFunctionType = LINEAR;
 
     @AutoGen(category = SERVER_CATEGORY, group = RANGE_GROUP)
