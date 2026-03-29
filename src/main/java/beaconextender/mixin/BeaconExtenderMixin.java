@@ -27,7 +27,7 @@ public class BeaconExtenderMixin {
 	private static void applyEffects(Level level, BlockPos blockPos, int beaconLevel, @Nullable Holder<MobEffect> primaryEffect, @Nullable Holder<MobEffect> secondaryEffect, CallbackInfo ci) {
 		// Cancel default action
 		ci.cancel();
-		if (!level.isClientSide && primaryEffect != null) {
+		if (!level.isClientSide() && primaryEffect != null) {
 			double distance = BeaconExtenderConfig.HANDLER.instance().getRange(beaconLevel);
 
 			int effectAmplifier = 0;
