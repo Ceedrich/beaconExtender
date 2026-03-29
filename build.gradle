@@ -11,13 +11,14 @@ modrinth {
   token = System.getenv("MODRINTH_TOKEN")
   projectId = "KAU7oAfO"
   versionType = "beta"
+  versionNumber = "${project.mod_version}+${project.minecraft_version}"
   uploadFile = remapJar
   changelog = "CHANGELOG.md"
   gameVersions = ["1.21.8"]
   loaders = ["fabric"]
   dependencies {
     required.project "fabric-api"
-	required.project "yacl"
+	  required.project "yacl"
   }
 
   syncBodyFrom = rootProject.file("README.md").text
