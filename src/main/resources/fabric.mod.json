@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "beaconextender",
-  "version": "${version}",
+  "version": "${version}+${minecraft_version}",
   "name": "beaconExtender",
   "description": "This mod lets you configure the range and number of layers beacons have",
   "authors": ["Ceedrich"],
