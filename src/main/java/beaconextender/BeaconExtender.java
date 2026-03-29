@@ -4,9 +4,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
-import net.fabricmc.fabric.impl.resource.v1.FabricResourceReloader;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,24 +30,19 @@ public class BeaconExtender implements ModInitializer {
   }
 
   private void registerReloadListener() {
-    class DataReloader implements FabricResourceReloader {
-		@Override
-		public CompletableFuture<Void> reload(SharedState sharedState, Executor executor, PreparationBarrier preparationBarrier, Executor executor2) {
+    class DataReloader implements PreparableReloadListener {
+        @Override
+		public CompletableFuture<Void> reload(PreparableReloadListener.SharedState sharedState, Executor executor, PreparableReloadListener.PreparationBarrier preparationBarrier, Executor executor2) {
 			CompletableFuture<Void> future = CompletableFuture.runAsync(
 					() -> { BeaconExtenderConfig.HANDLER.load(); }, executor2);
 
 			return preparationBarrier.wait(future).thenCompose(f -> f);
 		}
-
-		@Override
-		public ResourceLocation fabric$getId() {
-			return ResourceLocation.fromNamespaceAndPath(MOD_ID, "config_reloader");
-		}
-    };
+    }
 
     ResourceLoader.get(PackType.SERVER_DATA)
         .registerReloader(
-            ResourceLocation.fromNamespaceAndPath(MOD_ID, "config_reloader"),
+            Identifier.fromNamespaceAndPath(MOD_ID, "config_reloader"),
             new DataReloader());
   }
 }
