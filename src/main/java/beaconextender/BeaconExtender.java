@@ -41,7 +41,7 @@ public class BeaconExtender implements ModInitializer {
     }
 
     ResourceLoader.get(PackType.SERVER_DATA)
-        .registerReloader(
+        .registerReloadListener(
             Identifier.fromNamespaceAndPath(MOD_ID, "config_reloader"),
             new DataReloader());
   }

@@ -2,7 +2,7 @@ package beaconextender.mixin;
 
 import beaconextender.BeaconExtenderConfig;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.BeaconScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.BeaconMenu;
@@ -20,8 +20,8 @@ public class BeaconScreenMixin {
     @Unique
     private static final String INACTIVE_LABEL = "block.minecraft.beacon.beaconextender.inactive";
 
-    @Inject(at = @At("HEAD"), method = "renderLabels")
-    private void renderLabels(GuiGraphics guiGraphics, int i, int j, CallbackInfo ci) throws Exception {
+    @Inject(at = @At("HEAD"), method = "extractLabels")
+    private void renderLabels(final GuiGraphicsExtractor graphics, final int xm, final int ym, CallbackInfo ci) throws Exception {
         if (BeaconExtenderConfig.HANDLER.instance().showBeaconLayers()) {
             BeaconScreen instance = (BeaconScreen) (Object) this;
             Font font = instance.getFont();
@@ -30,9 +30,9 @@ public class BeaconScreenMixin {
             int layers = menu.getLevels();
 
             if (layers == 0) {
-                guiGraphics.drawCenteredString(font, Component.translatable(INACTIVE_LABEL), 169, 80, -2039584);
+                graphics.centeredText(font, Component.translatable(INACTIVE_LABEL), 169, 80, -2039584);
             } else {
-                guiGraphics.drawCenteredString(font, Component.translatable(ACTIVE_LAYERS_LABEL, layers), 169, 80, -2039584);
+                graphics.centeredText(font, Component.translatable(ACTIVE_LAYERS_LABEL, layers), 169, 80, -2039584);
             }
         }
     }
