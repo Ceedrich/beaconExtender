@@ -1,2 +1,1 @@
-- Change translation files
-- Bugfixes
+Update to 26.1
